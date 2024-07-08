@@ -6,7 +6,7 @@
     <title>WatchMate Final Comprehensive UI Mockup</title>
     <style>
         body {
-            font-family: 'Helvetica Neue', Arial, sans-serif;
+            font-family: 'Century Gothic', Arial, sans-serif;
             margin: 0;
             padding: 0;
             background-color: #0a192f;
@@ -96,6 +96,12 @@
             cursor: pointer;
             font-size: 12px;
         }
+        .tab img {
+            display: block;
+            margin: 0 auto;
+            width: 24px;
+            height: 24px;
+        }
         .form-group {
             margin-bottom: 20px;
         }
@@ -159,6 +165,29 @@
             background-color: #ffd700;
             transition: height 0.5s;
         }
+        .search-bar {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ffd700;
+            border-radius: 5px;
+            background-color: #253555;
+            color: #e6e6e6;
+            margin-bottom: 20px;
+        }
+        .notification-center {
+            background-color: #253555;
+            border-radius: 10px;
+            padding: 10px;
+            margin-bottom: 20px;
+            color: #ffd700;
+        }
+        .notification-item {
+            padding: 10px;
+            border-bottom: 1px solid #ffd700;
+        }
+        .notification-item:last-child {
+            border-bottom: none;
+        }
     </style>
 </head>
 <body>
@@ -170,11 +199,26 @@
             <!-- Content will be dynamically inserted here -->
         </div>
         <div class="tab-bar">
-            <div class="tab" onclick="showScreen('watches')">Watches</div>
-            <div class="tab" onclick="showScreen('complications')">Complications</div>
-            <div class="tab" onclick="showScreen('repairs')">Repairs</div>
-            <div class="tab" onclick="showScreen('community')">Community</div>
-            <div class="tab" onclick="showScreen('more')">More</div>
+            <div class="tab" onclick="showScreen('watches')">
+                <img src="path/to/watch-icon.svg" alt="Watches" /><br>
+                Watches
+            </div>
+            <div class="tab" onclick="showScreen('complications')">
+                <img src="path/to/complications-icon.svg" alt="Complications" /><br>
+                Complications
+            </div>
+            <div class="tab" onclick="showScreen('repairs')">
+                <img src="path/to/repairs-icon.svg" alt="Repairs" /><br>
+                Repairs
+            </div>
+            <div class="tab" onclick="showScreen('community')">
+                <img src="path/to/community-icon.svg" alt="Community" /><br>
+                Community
+            </div>
+            <div class="tab" onclick="showScreen('more')">
+                <img src="path/to/more-icon.svg" alt="More" /><br>
+                More
+            </div>
         </div>
     </div>
 
@@ -194,7 +238,9 @@
 
         const repairServices = [
             { id: 1, name: 'Swiss Watch Repair', location: 'New York', rating: 4.8, tags: ['Rolex', 'Omega', 'Vintage'] },
-            { id: 2, name: 'Precision Timepieces', location: 'Los Angeles', rating: 4.5, tags: ['Patek Philippe', 'Audemars Piguet', 'High-End'] },
+            { id: 2
+
+, name: 'Precision Timepieces', location: 'Los Angeles', rating: 4.5, tags: ['Patek Philippe', 'Audemars Piguet', 'High-End'] },
             { id: 3, name: 'Watchmaker\'s Workshop', location: 'Chicago', rating: 4.7, tags: ['Seiko', 'Vintage', 'Restoration'] }
         ];
 
@@ -204,11 +250,20 @@
             { id: 3, title: 'Accuracy Comparison', author: 'PrecisionLover', content: 'Let\'s compare the accuracy of different movements!' }
         ];
 
+        const notifications = [
+            { id: 1, message: 'Your Rolex Submariner needs adjustment tomorrow.', type: 'reminder', read: false },
+            { id: 2, message: 'New post in community forum: Vintage Watch Care', type: 'forum', read: false },
+            { id: 3, message: 'Precision Timepieces received a new review.', type: 'repair', read: true }
+        ];
+
         function showScreen(screen) {
             const content = document.getElementById('mainContent');
+            content.innerHTML = `
+                <input class="search-bar" type="text" placeholder="Search..." oninput="search(event, '${screen}')" />
+            `;
             switch(screen) {
                 case 'watches':
-                    content.innerHTML = `
+                    content.innerHTML += `
                         <h2>My Watch Collection</h2>
                         <div class="watch-grid">
                             ${watches.map(watch => `
@@ -222,7 +277,7 @@
                     `;
                     break;
                 case 'complications':
-                    content.innerHTML = `
+                    content.innerHTML += `
                         <h2>Complication Management</h2>
                         <ul class="complication-list">
                             ${complications.map(complication => `
@@ -236,7 +291,7 @@
                     `;
                     break;
                 case 'repairs':
-                    content.innerHTML = `
+                    content.innerHTML += `
                         <h2>Repair Services</h2>
                         <ul class="repair-list">
                             ${repairServices.map(service => `
@@ -254,20 +309,21 @@
                     `;
                     break;
                 case 'community':
-                    content.innerHTML = `
+                    content.innerHTML += `
                         <h2>Community Forum</h2>
                         ${forumPosts.map(post => `
                             <div class="forum-post">
                                 <h3>${post.title}</h3>
                                 <p>By: ${post.author}</p>
                                 <p>${post.content}</p>
+                                <button class="button" onclick="showPostComments(${post.id})">View Comments</button>
                             </div>
                         `).join('')}
                         <button class="button" onclick="showNewPost()">New Post</button>
                     `;
                     break;
                 case 'more':
-                    content.innerHTML = `
+                    content.innerHTML += `
                         <h2>More Options</h2>
                         <button class="button" onclick="showScreen('profile')">User Profile</button>
                         <button class="button">Settings</button>
@@ -276,7 +332,7 @@
                     `;
                     break;
                 case 'profile':
-                    content.innerHTML = `
+                    content.innerHTML += `
                         <h2>User Profile</h2>
                         <div class="form-group">
                             <label>Username</label>
@@ -290,7 +346,133 @@
                             <label>Bio</label>
                             <input type="text" value="Passionate about mechanical watches" />
                         </div>
+                        <div class="form-group">
+                            <label>Location</label>
+                            <input type="text" value="Christchurch, NZ" />
+                        </div>
+                        <div class="form-group">
+                            <label>Profile Picture</label>
+                            <input type="file" accept="image/*" />
+                        </div>
+                        <div class="form-group">
+                            <label>Watch Preferences</label>
+                            <textarea placeholder="Enter your watch preferences"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Favorite Brands</label>
+                            <input type="text" placeholder="Enter your favorite brands" />
+                        </div>
+                        <div class="form-group">
+                            <label>Social Media Links</label>
+                            <input type="text" placeholder="Enter your social media links" />
+                        </div>
                         <button class="button">Update Profile</button>
+                        <div class="profile-stats">
+                            <h3>Profile Statistics</h3>
+                            <p>Total Watches: 4</p>
+                            <p>Average Accuracy: 1.75 sec/day</p>
+                            <p>Highest Market Value Watch: $70,000</p>
+                        </div>
+                    `;
+                    break;
+                case 'notifications':
+                    content.innerHTML += `
+                        <h2>Notifications</h2>
+                        <div class="notification-center">
+                            ${notifications.map(notification => `
+                                <div class="notification-item" style="background-color: ${notification.read ? '#253555' : '#0a192f'}">
+                                    <p>${notification.message}</p>
+                                </div>
+                            `).join('')}
+                        </div>
+                    `;
+                    break;
+            }
+        }
+
+        function search(event, screen) {
+            const query = event.target.value.toLowerCase();
+            const content = document.getElementById('mainContent');
+            let filteredItems = [];
+
+            switch(screen) {
+                case 'watches':
+                    filteredItems = watches.filter(watch => watch.brand.toLowerCase().includes(query) || watch.model.toLowerCase().includes(query));
+                    break;
+                case 'complications':
+                    filteredItems = complications.filter(complication => watches.find(watch => watch.id === complication.watchId).brand.toLowerCase().includes(query));
+                    break;
+                case 'repairs':
+                    filteredItems = repairServices.filter(service => service.name.toLowerCase().includes(query) || service.location.toLowerCase().includes(query));
+                    break;
+                case 'community':
+                    filteredItems = forumPosts.filter(post => post.title.toLowerCase().includes(query) || post.content.toLowerCase().includes(query));
+                    break;
+            }
+
+            showScreen(screen);
+            const filteredContent = document.getElementById('mainContent');
+            switch(screen) {
+                case 'watches':
+                    filteredContent.innerHTML += `
+                        <h2>My Watch Collection</h2>
+                        <div class="watch-grid">
+                            ${filteredItems.map(watch => `
+                                <div class="watch-card" onclick="showWatchDetails(${watch.id})" style="background-image: url('${watch.image}');">
+                                    <h3>${watch.brand}</h3>
+                                    <p>${watch.model}</p>
+                                </div>
+                            `).join('')}
+                        </div>
+                        <button class="button" onclick="showAddWatch()">Add New Watch</button>
+                    `;
+                    break;
+                case 'complications':
+                    filteredContent.innerHTML += `
+                        <h2>Complication Management</h2>
+                        <ul class="complication-list">
+                            ${filteredItems.map(complication => `
+                                <li class="complication-item" onclick="showComplicationDetails(${complication.id})">
+                                    <h3>${watches.find(w => w.id === complication.watchId).brand} - ${complication.type}</h3>
+                                    <p>Next Adjustment: ${complication.nextAdjustment}</p>
+                                </li>
+                            `).join('')}
+                        </ul>
+                        <button class="button" onclick="showAddComplication()">Add New Complication</button>
+                    `;
+                    break;
+                case 'repairs':
+                    filteredContent.innerHTML += `
+                        <h2>Repair Services</h2>
+                        <ul class="repair-list">
+                            ${filteredItems.map(service => `
+                                <li class="repair-item" onclick="showRepairServiceDetails(${service.id})">
+                                    <h3>${service.name}</h3>
+                                    <p>Location: ${service
+
+.location}</p>
+                                    <p>Rating: ${service.rating}/5</p>
+                                    <div>
+                                        ${service.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+                                    </div>
+                                </li>
+                            `).join('')}
+                        </ul>
+                        <button class="button" onclick="showAddRepairService()">Add New Repair Service</button>
+                    `;
+                    break;
+                case 'community':
+                    filteredContent.innerHTML += `
+                        <h2>Community Forum</h2>
+                        ${filteredItems.map(post => `
+                            <div class="forum-post">
+                                <h3>${post.title}</h3>
+                                <p>By: ${post.author}</p>
+                                <p>${post.content}</p>
+                                <button class="button" onclick="showPostComments(${post.id})">View Comments</button>
+                            </div>
+                        `).join('')}
+                        <button class="button" onclick="showNewPost()">New Post</button>
                     `;
                     break;
             }
@@ -321,121 +503,173 @@
                     <div class="bar" style="height: 85%;"></div>
                 </div>
                 <button class="button" onclick="showScreen('watches')">Back to Collection</button>
+                <button class="button" onclick="showShareWatch(${watch.id})">Share Watch Details</button>
             `;
+        }
+
+        function showShareWatch(id) {
+            const watch = watches.find(w => w.id === id);
+            const content = document.getElementById('mainContent');
+            content.innerHTML = `
+                <h2>Share ${watch.brand} ${watch.model}</h2>
+                <div class="form-group">
+                    <label>Select Details to Share</label>
+                    <div>
+                        <input type="checkbox" id="shareAccuracy" checked> Accuracy<br>
+                        <input type="checkbox" id="shareMarketValue" checked> Market Value<br>
+                        <input type="checkbox" id="shareComplications" checked> Complications<br>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Share via</label>
+                    <select id="shareVia">
+                        <option value="email">Email</option>
+                        <option value="socialMedia">Social Media</option>
+                        <option value="link">Generate Link</option>
+                    </select>
+                </div>
+                <button class="button" onclick="shareWatchDetails(${watch.id})">Share</button>
+                <button class="button" onclick="showWatchDetails(${watch.id})">Cancel</button>
+            `;
+        }
+
+        function shareWatchDetails(id) {
+            const shareVia = document.getElementById('shareVia').value;
+            const detailsToShare = {
+                accuracy: document.getElementById('shareAccuracy').checked,
+                marketValue: document.getElementById('shareMarketValue').checked,
+                complications: document.getElementById('shareComplications').checked
+            };
+            // Process sharing the details based on selected options
+            console.log(`Sharing ${id} via ${shareVia}`, detailsToShare);
+            showWatchDetails(id);
         }
 
         function showAddWatch() {
             const content = document.getElementById('mainContent');
             content.innerHTML = `
                 <h2>Add New Watch</h2>
-                <div class="form-group">
-                    <label>Brand</label>
-                    <input type="text" placeholder="Enter brand" />
-                </div>
-                <div class="form-group">
-                    <label>Model</label>
-                    <input type="text" placeholder="Enter model" />
-                </div>
-                <div class="form-group">
-                    <label>Serial Number</label>
-                    <input type="text" placeholder="Enter serial number" />
-                </div>
-                <div class="form-group">
-                    <label>Watch Image</label>
-                    <input type="file" accept="image/*" />
-                </div>
-                <button class="button">Add Watch</button>
-                <button class="button" onclick="showScreen('watches')">Cancel</button>
+                <form id="addWatchForm" onsubmit="submitWatchForm(event)">
+                    <div class="form-group">
+                        <label>Brand</label>
+                        <input type="text" name="brand" placeholder="Enter brand" required />
+                    </div>
+                    <div class="form-group">
+                        <label>Model</label>
+                        <input type="text" name="model" placeholder="Enter model" required />
+                    </div>
+                    <div class="form-group">
+                        <label>Serial Number</label>
+                        <input type="text" name="serialNumber" placeholder="Enter serial number" required />
+                    </div>
+                    <div class="form-group">
+                        <label>Watch Image</label>
+                        <input type="file" name="watchImage" accept="image/*" required />
+                    </div>
+                    <button class="button" type="submit">Add Watch</button>
+                    <button class="button" type="button" onclick="showScreen('watches')">Cancel</button>
+                </form>
             `;
         }
 
+        function submitWatchForm(event) {
+            event.preventDefault();
+            const form = document.getElementById('addWatchForm');
+            const formData = new FormData(form);
+            // Process the form data
+            console.log('Form submitted:', formData);
+            showScreen('watches');
+        }
+
         function showComplicationDetails(id) {
-    const complication = complications.find(c => c.id === id);
-    const watch = watches.find(w => w.id === complication.watchId);
-    const content = document.getElementById('mainContent');
+            const complication = complications.find(c => c.id === id);
+            const watch = watches.find(w => w.id === complication.watchId);
+            const content = document.getElementById('mainContent');
 
-    let complicationHTML = '';
-    let reminderHTML = `
-        <div class="form-group">
-            <label>Enable Reminder</label>
-            <input type="checkbox" id="reminderEnabled" ${complication.reminderEnabled ? 'checked' : ''} onchange="updateReminderSettings(${complication.id})">
-        </div>
-        <div class="form-group" id="reminderTypeGroup" style="display: ${complication.reminderEnabled ? 'block' : 'none'}">
-            <label>Reminder Type</label>
-            <select id="reminderType" onchange="updateReminderSettings(${complication.id})">
-                <option value="push" ${complication.reminderType === 'push' ? 'selected' : ''}>Push Notification</option>
-                <option value="email" ${complication.reminderType === 'email' ? 'selected' : ''}>Email</option>
-            </select>
-        </div>
-    `;
-
-    switch(complication.type) {
-        case 'Day/Date':
-            complicationHTML = `
-                <p>Last Adjusted: ${complication.lastAdjusted}</p>
-                <p>Next Adjustment: ${complication.nextAdjustment}</p>
+            let complicationHTML = '';
+            let reminderHTML = `
                 <div class="form-group">
-                    <label>Mark as Adjusted</label>
-                    <input type="date" id="adjustmentDate" />
+                    <label>Enable Reminder</label>
+                    <input type="checkbox" id="reminderEnabled" ${complication.reminderEnabled ? 'checked' : ''} onchange="updateReminderSettings(${complication.id})">
                 </div>
-                <p>Tip: Adjust at the end of months with less than 31 days.</p>
-                <button class="button" onclick="updateDayDateAdjustment(${complication.id})">Mark Adjusted</button>
-                ${reminderHTML}
-            `;
-            break;
-        case 'Chronograph':
-            complicationHTML = `
-                <p>Last Service: ${complication.lastService}</p>
-                <p>Service Interval: ${complication.serviceInterval} days</p>
-                <div class="form-group">
-                    <label>Mark as Serviced</label>
-                    <input type="date" id="serviceDate" />
+                <div class="form-group" id="reminderTypeGroup" style="display: ${complication.reminderEnabled ? 'block' : 'none'}">
+                    <label>Reminder Type</label>
+                    <select id="reminderType" onchange="updateReminderSettings(${complication.id})">
+                        <option value="push" ${complication.reminderType === 'push' ? 'selected' : ''}>Push Notification</option>
+                        <option value="email" ${complication.reminderType === 'email' ? 'selected' : ''}>Email</option>
+                    </select>
                 </div>
-                <p>Tip: Regular servicing ensures accurate timekeeping.</p>
-                <button class="button" onclick="updateChronographService(${complication.id})">Mark Serviced</button>
-                ${reminderHTML}
             `;
-            break;
-        case 'Power Reserve':
-            complicationHTML = `
-                <p>Last Full Wind: ${complication.lastFullWind}</p>
-                <p>Power Reserve Duration: ${complication.powerReserveDuration} hours</p>
-                <div class="form-group">
-                    <label>Mark as Fully Wound</label>
-                    <input type="datetime-local" id="windDateTime" />
-                </div>
-                <p>Tip: Fully wind your watch regularly to maintain accuracy.</p>
-                <button class="button" onclick="updatePowerReserve(${complication.id})">Mark Fully Wound</button>
-                ${reminderHTML}
-            `;
-            break;
-        default:
-            complicationHTML = `<p>Details not available for this complication type.</p>`;
-    }
 
-    content.innerHTML = `
-        <h2>${watch.brand} - ${complication.type}</h2>
-        <div class="watch-face">
-            <div class="complication" style="top: ${complication.position.top}; left: ${complication.position.left};">
-                ${complication.type.charAt(0)}
-            </div>
-        </div>
-        ${complicationHTML}
-        <button class="button" onclick="showScreen('complications')">Back to Complications</button>
-    `;
-}
+            switch(complication.type) {
+                case 'Day/Date':
+                    complicationHTML = `
+                        <p>Last Adjusted: ${complication.lastAdjusted}</p>
+                        <p>Next Adjustment: ${complication.nextAdjustment}</p>
+                        <div class="form-group">
+                            <label>Mark as Adjusted</label>
+                            <input type="date" id="adjustmentDate" />
+                        </div>
+                        <p>Tip: Adjust at the end of months with less than 31 days.</p>
+                        <button class="button" onclick="updateDayDateAdjustment(${complication.id})">Mark Adjusted</button>
+                        ${reminderHTML}
+                    `;
+                    break;
+                case 'Chronograph':
+                    complicationHTML = `
+                        <p>Last Service: ${complication.lastService}</p>
+                        <p>Service Interval: ${complication.serviceInterval} days</p>
+                        <div class="form-group">
+                            <label>Mark as Serviced</label>
+                            <input type="date" id="serviceDate" />
+                        </div>
+                        <p>Tip: Regular servicing ensures accurate timekeeping.</p>
+                        <button class="button" onclick="updateChronographService(${complication.id})">Mark Serviced</button>
+                        ${reminderHTML}
+                    `;
+                    break;
+                case 'Power Reserve':
+                    complicationHTML = `
+                        <p>Last Full Wind: ${complication.lastFullWind}</p>
+                        <p>Power Reserve Duration: ${complication.powerReserveDuration} hours</p>
+                        <div class="form-group">
+                            <label>Mark as Fully Wound</label>
+                            <input type="datetime-local" id="windDateTime" />
+                        </div>
+                        <p>Tip: Fully wind your watch regularly to maintain accuracy.</p>
+                        <button class="button" onclick="updatePowerReserve(${complication.id})">Mark Fully Wound</button>
+                        ${reminderHTML}
+                    `;
+                    break;
+                default:
+                    complicationHTML = `<p>Details not available for this complication type.</p>`;
+            }
 
-function updateReminderSettings(id) {
-    const complication = complications.find(c => c.id === id);
-    complication.reminderEnabled = document.getElementById('reminderEnabled').checked;
-    complication.reminderType = document.getElementById('reminderType').value;
-    
-    // Toggle visibility of reminder type selection
-    document.getElementById('reminderTypeGroup').style.display = complication.reminderEnabled ? 'block' : 'none';
-    
-    // Here you would typically send an update to the server
-    console.log(`Updated reminder settings for complication ${id}:`, complication);
-}
+            content.innerHTML = `
+                <h2>${watch.brand} - ${complication.type}</h2>
+                <div class="watch-face">
+                    <div class="complication" style="top: ${complication.position.top}; left: ${complication.position.left};">
+                        ${complication.type.charAt(0)}
+                    </div>
+                </div>
+                ${complicationHTML}
+                <button class="button"
+
+ onclick="showScreen('complications')">Back to Complications</button>
+            `;
+        }
+
+        function updateReminderSettings(id) {
+            const complication = complications.find(c => c.id === id);
+            complication.reminderEnabled = document.getElementById('reminderEnabled').checked;
+            complication.reminderType = document.getElementById('reminderType').value;
+            
+            // Toggle visibility of reminder type selection
+            document.getElementById('reminderTypeGroup').style.display = complication.reminderEnabled ? 'block' : 'none';
+            
+            // Here you would typically send an update to the server
+            console.log(`Updated reminder settings for complication ${id}:`, complication);
+        }
 
         function updatePowerReserve(id) {
             const dateTime = document.getElementById('windDateTime').value;
@@ -457,23 +691,22 @@ function updateReminderSettings(id) {
 
         function updateDayDateAdjustment(id) {
             const date = document.getElementById('adjustmentDate').value;
-                if (date) {
-                    const complication = complications.find(c => c.id === id);
-                    complication.lastAdjusted = date;
-                    complication.nextAdjustment = calculateNextAdjustment(date);
-                    showComplicationDetails(id);
-                }
+            if (date) {
+                const complication = complications.find(c => c.id === id);
+                complication.lastAdjusted = date;
+                complication.nextAdjustment = calculateNextAdjustment(date);
+                showComplicationDetails(id);
             }
+        }
 
         function calculateNextAdjustment(date) {
             const nextDate = new Date(date);
             nextDate.setMonth(nextDate.getMonth() + 1);
-                if (nextDate.getDate() < 28) {
-                    nextDate.setDate(28);
-                }
-                return nextDate.toISOString().split('T')[0];
+            if (nextDate.getDate() < 28) {
+                nextDate.setDate(28);
             }
-
+            return nextDate.toISOString().split('T')[0];
+        }
 
         function showAddComplication() {
             const content = document.getElementById('mainContent');
@@ -533,42 +766,106 @@ function updateReminderSettings(id) {
             const content = document.getElementById('mainContent');
             content.innerHTML = `
                 <h2>Add New Repair Service</h2>
-                <div class="form-group">
-                    <label>Name</label>
-                    <input type="text" placeholder="Enter service name" />
-                </div>
-                <div class="form-group">
-                    <label>Location</label>
-                    <input type="text" placeholder="Enter location" />
-                </div>
-                <div class="form-group">
-                    <label>Phone</label>
-                    <input type="tel" placeholder="Enter phone number" />
-                </div>
-                <div class="form-group">
-                    <label>Specialties (comma-separated)</label>
-                    <input type="text" placeholder="e.g., Rolex, Vintage, Restoration" />
-                </div>
-                <button class="button">Add Repair Service</button>
-                <button class="button" onclick="showScreen('repairs')">Cancel</button>
+                <form id="addRepairServiceForm" onsubmit="submitRepairServiceForm(event)">
+                    <div class="form-group">
+                        <label>Name</label>
+                        <input type="text" name="name" placeholder="Enter service name" required />
+                    </div>
+                    <div class="form-group">
+                        <label>Location</label>
+                        <input type="text" name="location" placeholder="Enter location" required />
+                    </div>
+                    <div class="form-group">
+                        <label>Phone</label>
+                        <input type="tel" name="phone" placeholder="Enter phone number" required />
+                    </div>
+                    <div class="form-group">
+                        <label>Specialties (comma-separated)</label>
+                        <input type="text" name="specialties" placeholder="e.g., Rolex, Vintage, Restoration" required />
+                    </div>
+                    <button class="button" type="submit">Add Repair Service</button>
+                    <button class="button" type="button" onclick="showScreen('repairs')">Cancel</button>
+                </form>
             `;
+        }
+
+        function submitRepairServiceForm(event) {
+            event.preventDefault();
+            const form = document.getElementById('addRepairServiceForm');
+            const formData = new FormData(form);
+            // Process the form data
+            console.log('Form submitted:', formData);
+            showScreen('repairs');
         }
 
         function showNewPost() {
             const content = document.getElementById('mainContent');
             content.innerHTML = `
                 <h2>New Forum Post</h2>
-                <div class="form-group">
-                    <label>Title</label>
-                    <input type="text" placeholder="Enter post title" />
-                </div>
-                <div class="form-group">
-                    <label>Content</label>
-                    <textarea placeholder="Enter post content" rows="5" style="width: 100%; padding: 10px;"></textarea>
-                </div>
-                <button class="button">Submit Post</button>
-                <button class="button" onclick="showScreen('community')">Cancel</button>
+                <form id="newPostForm" onsubmit="submitPostForm(event)">
+                    <div class="form-group">
+                        <label>Title</label>
+                        <input type="text" name="title" placeholder="Enter post title" required />
+                    </div>
+                    <div class="form-group">
+                        <label>Content</label>
+                        <textarea name="content" placeholder="Enter post content" rows="5" required></textarea>
+                    </div>
+                    <button class="button" type="submit">Submit Post</button>
+                    <button class="button" type="button" onclick="showScreen('community')">Cancel</button>
+                </form>
             `;
+        }
+
+        function submitPostForm(event) {
+            event.preventDefault();
+            const form = document.getElementById('newPostForm');
+            const formData = new FormData(form);
+            // Process the form data
+            console.log('Form submitted:', formData);
+            showScreen('community');
+        }
+
+        function showPostComments(postId) {
+            const post = forumPosts.find(p => p.id === postId);
+            const comments = [
+                { id: 1, author: 'WatchFan2', content: 'I love the new release!', postId: 1 },
+                { id: 2, author: 'WatchLover', content: 'Thanks for the tips!', postId: 2 }
+            ].filter(comment => comment.postId === postId);
+
+            const content = document.getElementById('mainContent');
+            content.innerHTML = `
+                <h2>Comments on "${post.title}"</h2>
+                <div class="forum-post">
+                    <h3>${post.title}</h3>
+                    <p>By: ${post.author}</p>
+                    <p>${post.content}</p>
+                </div>
+                <div class="comments">
+                    ${comments.map(comment => `
+                        <div class="comment">
+                            <p><strong>${comment.author}</strong>: ${comment.content}</p>
+                        </div>
+                    `).join('')}
+                </div>
+                <form id="addCommentForm" onsubmit="submitCommentForm(event, ${postId})">
+                    <div class="form-group">
+                        <label>Add a comment</label>
+                        <textarea name="commentContent" placeholder="Enter your comment" rows="3" required></textarea>
+                    </div>
+                    <button class="button" type="submit">Submit Comment</button>
+                </form>
+                <button class="button" onclick="showScreen('community')">Back to Community</button>
+            `;
+        }
+
+        function submitCommentForm(event, postId) {
+            event.preventDefault();
+            const form = document.getElementById('addCommentForm');
+            const formData = new FormData(form);
+            // Process the form data
+            console.log('Comment submitted:', formData);
+            showPostComments(postId);
         }
 
         // Initialize with the watches screen
