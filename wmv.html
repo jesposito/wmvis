@@ -3,54 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WatchMate Final Comprehensive UI Mockup</title>
+    <title>WatchMate Comprehensive UI Mockup</title>
     <style>
         body {
             font-family: 'Century Gothic', Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #0a192f;
-            color: #e6e6e6;
+            background-color: #fafafa;
+            color: #262626;
         }
         .container {
-            max-width: 400px;
+            max-width: 600px;
             margin: 20px auto;
-            background-color: #172a45;
+            background-color: #fff;
             border-radius: 15px;
             overflow: hidden;
-            box-shadow: 0 0 20px rgba(0,0,0,0.3);
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
         }
         .header {
-            background-color: #0a192f;
-            color: #ffd700;
+            background-color: #fff;
+            color: #262626;
             padding: 20px;
             text-align: center;
             font-size: 24px;
             font-weight: bold;
+            border-bottom: 1px solid #dbdbdb;
         }
         .content {
             padding: 20px;
-            max-height: 500px;
+            max-height: 600px;
             overflow-y: auto;
         }
         .watch-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: 1fr 1fr;
             gap: 15px;
         }
         .watch-card {
             background-size: cover;
             background-position: center;
             border-radius: 10px;
-            padding: 15px;
             color: #fff;
-            text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
             cursor: pointer;
             transition: transform 0.2s;
-            aspect-ratio: 1;
+            overflow: hidden;
             display: flex;
             flex-direction: column;
-            justify-content: flex-end;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .watch-card img {
+            width: 100%;
+            height: auto;
+        }
+        .watch-card-details {
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.6);
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
         .watch-card:hover {
             transform: scale(1.05);
@@ -60,15 +72,16 @@
             padding: 0;
         }
         .complication-item, .repair-item, .forum-post {
-            background-color: #253555;
+            background-color: #f9f9f9;
             margin-bottom: 15px;
             padding: 15px;
             border-radius: 10px;
             cursor: pointer;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
         }
         .button {
-            background-color: #ffd700;
-            color: #0a192f;
+            background-color: #0095f6;
+            color: #fff;
             border: none;
             padding: 12px 20px;
             border-radius: 25px;
@@ -80,19 +93,22 @@
             transition: background-color 0.2s;
         }
         .button:hover {
-            background-color: #ffed4d;
+            background-color: #0084e0;
         }
         .tab-bar {
             display: flex;
             justify-content: space-around;
-            background-color: #0a192f;
+            background-color: #fff;
             padding: 15px 0;
-            position: sticky;
+            border-top: 1px solid #dbdbdb;
+            position: fixed;
             bottom: 0;
+            width: 100%;
+            max-width: 600px;
         }
         .tab {
             text-align: center;
-            color: #ffd700;
+            color: #262626;
             cursor: pointer;
             font-size: 12px;
         }
@@ -108,23 +124,23 @@
         .form-group label {
             display: block;
             margin-bottom: 8px;
-            color: #ffd700;
+            color: #262626;
         }
         .form-group input, .form-group select, .form-group textarea {
             width: 100%;
             padding: 10px;
-            border: 1px solid #ffd700;
+            border: 1px solid #dbdbdb;
             border-radius: 5px;
-            background-color: #253555;
-            color: #e6e6e6;
+            background-color: #fff;
+            color: #262626;
         }
         .watch-face {
             width: 200px;
             height: 200px;
             border-radius: 50%;
             border: 10px solid #ffd700;
-            margin: 20px auto;
             position: relative;
+            margin: 20px auto;
             background-color: #fff;
         }
         .complication {
@@ -139,54 +155,147 @@
             color: #ffd700;
             font-weight: bold;
         }
+        .bell-icon {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            cursor: pointer;
+            background-color: #ffd700;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+        }
+        .modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            z-index: 1000;
+            box-shadow: 0 0 10px rgba(0,0,0,0.3);
+        }
+        .modal-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 999;
+        }
         .tag {
             display: inline-block;
-            background-color: #ffd700;
-            color: #0a192f;
+            background-color: #0095f6;
+            color: #fff;
             padding: 5px 10px;
             border-radius: 15px;
             margin-right: 5px;
             margin-bottom: 5px;
             font-size: 12px;
         }
-        .chart {
-            width: 100%;
-            height: 200px;
-            background-color: #253555;
-            display: flex;
-            justify-content: space-around;
-            align-items: flex-end;
-            padding: 10px;
-            box-sizing: border-box;
-            border-radius: 10px;
-        }
-        .bar {
-            width: 30px;
-            background-color: #ffd700;
-            transition: height 0.5s;
-        }
         .search-bar {
             width: 100%;
             padding: 10px;
-            border: 1px solid #ffd700;
+            border: 1px solid #dbdbdb;
             border-radius: 5px;
-            background-color: #253555;
-            color: #e6e6e6;
+            background-color: #fff;
+            color: #262626;
             margin-bottom: 20px;
         }
         .notification-center {
-            background-color: #253555;
+            background-color: #fff;
             border-radius: 10px;
             padding: 10px;
             margin-bottom: 20px;
-            color: #ffd700;
+            color: #262626;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
         }
         .notification-item {
             padding: 10px;
-            border-bottom: 1px solid #ffd700;
+            border-bottom: 1px solid #dbdbdb;
         }
         .notification-item:last-child {
             border-bottom: none;
+        }
+        .icon-button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #262626;
+            font-size: 20px;
+            padding: 5px;
+        }
+        .premium-feature {
+            position: relative;
+            overflow: hidden;
+        }
+        .premium-feature::after {
+            content: "Premium";
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background-color: gold;
+            color: black;
+            padding: 2px 5px;
+            font-size: 0.8em;
+            border-radius: 3px;
+        }
+        .affiliate-link {
+            color: #0095f6;
+            text-decoration: underline;
+        }
+        .direct-message {
+            background-color: #e1f5fe;
+            border-radius: 10px;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+        .watch-details {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .watch-image {
+            width: 100%;
+            max-width: 300px;
+            height: auto;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        .watch-info {
+            width: 100%;
+            text-align: left;
+        }
+        .watch-info h3 {
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+        .watch-info p {
+            margin: 5px 0;
+        }
+        /* New styles for trend tables */
+        .trend-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        .trend-table th, .trend-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        .trend-table th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+        .trend-table tr:nth-child(even) {
+            background-color: #f9f9f9;
         }
     </style>
 </head>
@@ -199,6 +308,10 @@
             <!-- Content will be dynamically inserted here -->
         </div>
         <div class="tab-bar">
+            <div class="tab" onclick="showScreen('dashboard')">
+                <img src="path/to/dashboard-icon.svg" alt="Dashboard" /><br>
+                Dashboard
+            </div>
             <div class="tab" onclick="showScreen('watches')">
                 <img src="path/to/watch-icon.svg" alt="Watches" /><br>
                 Watches
@@ -206,10 +319,6 @@
             <div class="tab" onclick="showScreen('complications')">
                 <img src="path/to/complications-icon.svg" alt="Complications" /><br>
                 Complications
-            </div>
-            <div class="tab" onclick="showScreen('repairs')">
-                <img src="path/to/repairs-icon.svg" alt="Repairs" /><br>
-                Repairs
             </div>
             <div class="tab" onclick="showScreen('community')">
                 <img src="path/to/community-icon.svg" alt="Community" /><br>
@@ -224,10 +333,10 @@
 
     <script>
         const watches = [
-            { id: 1, brand: 'Rolex', model: 'Submariner', accuracy: 2, marketValue: 12500, image: 'https://via.placeholder.com/150?text=Rolex+Submariner' },
-            { id: 2, brand: 'Omega', model: 'Speedmaster', accuracy: -1, marketValue: 6200, image: 'https://via.placeholder.com/150?text=Omega+Speedmaster' },
-            { id: 3, brand: 'Seiko', model: 'Presage', accuracy: 5, marketValue: 800, image: 'https://via.placeholder.com/150?text=Seiko+Presage' },
-            { id: 4, brand: 'Patek Philippe', model: 'Nautilus', accuracy: 1, marketValue: 70000, image: 'https://via.placeholder.com/150?text=Patek+Philippe+Nautilus' }
+            { id: 1, brand: 'Rolex', model: 'Submariner', accuracy: 2, marketValue: 12500, image: 'https://via.placeholder.com/300x300?text=Rolex+Submariner', purchasePrice: 10000, purchaseDate: '2022-01-15', privacy: 'public' },
+            { id: 2, brand: 'Omega', model: 'Speedmaster', accuracy: -1, marketValue: 6200, image: 'https://via.placeholder.com/300x300?text=Omega+Speedmaster', purchasePrice: 5000, purchaseDate: '2021-06-30', privacy: 'private' },
+            { id: 3, brand: 'Seiko', model: 'Presage', accuracy: 5, marketValue: 800, image: 'https://via.placeholder.com/300x300?text=Seiko+Presage', purchasePrice: 700, purchaseDate: '2023-03-10', privacy: 'public' },
+            { id: 4, brand: 'Patek Philippe', model: 'Nautilus', accuracy: 1, marketValue: 70000, image: 'https://via.placeholder.com/300x300?text=Patek+Philippe+Nautilus', purchasePrice: 65000, purchaseDate: '2020-12-25', privacy: 'private' }
         ];
 
         const complications = [
@@ -238,9 +347,7 @@
 
         const repairServices = [
             { id: 1, name: 'Swiss Watch Repair', location: 'New York', rating: 4.8, tags: ['Rolex', 'Omega', 'Vintage'] },
-            { id: 2
-
-, name: 'Precision Timepieces', location: 'Los Angeles', rating: 4.5, tags: ['Patek Philippe', 'Audemars Piguet', 'High-End'] },
+            { id: 2, name: 'Precision Timepieces', location: 'Los Angeles', rating: 4.5, tags: ['Patek Philippe', 'Audemars Piguet', 'High-End'] },
             { id: 3, name: 'Watchmaker\'s Workshop', location: 'Chicago', rating: 4.7, tags: ['Seiko', 'Vintage', 'Restoration'] }
         ];
 
@@ -256,24 +363,72 @@
             { id: 3, message: 'Precision Timepieces received a new review.', type: 'repair', read: true }
         ];
 
+        const marketData = [
+            { watchId: 1, date: '2023-07-01', value: 12500 },
+            { watchId: 1, date: '2023-06-01', value: 12300 },
+            { watchId: 1, date: '2023-05-01', value: 12100 },
+            { watchId: 2, date: '2023-07-01', value: 6200 },
+            { watchId: 2, date: '2023-06-01', value: 6100 },
+            { watchId: 2, date: '2023-05-01', value: 6000 },
+            { watchId: 3, date: '2023-07-01', value: 800 },
+            { watchId: 3, date: '2023-06-01', value: 790 },
+            { watchId: 3, date: '2023-05-01', value: 780 },
+            { watchId: 4, date: '2023-07-01', value: 70000 },
+            { watchId: 4, date: '2023-06-01', value: 69000 },
+            { watchId: 4, date: '2023-05-01', value: 68000 },
+        ];
+
+        const accuracyData = [
+            { watchId: 1, date: '2023-07-01', accuracy: 2 },
+            { watchId: 1, date: '2023-06-01', accuracy: 1.5 },
+            { watchId: 1, date: '2023-05-01', accuracy: 2.5 },
+            { watchId: 2, date: '2023-07-01', accuracy: -1 },
+            { watchId: 2, date: '2023-06-01', accuracy: -1.2 },
+            { watchId: 2, date: '2023-05-01', accuracy: -0.8 },
+            { watchId: 3, date: '2023-07-01', accuracy: 5 },
+            { watchId: 3, date: '2023-06-01', accuracy: 4.5 },
+            { watchId: 3, date: '2023-05-01', accuracy: 5.5 },
+            { watchId: 4, date: '2023-07-01', accuracy: 1 },
+            { watchId: 4, date: '2023-06-01', accuracy: 0.8 },
+            { watchId: 4, date: '2023-05-01', accuracy: 1.2 },
+        ];
+
+        const customizationHistory = [
+            { watchId: 1, date: '2023-05-15', description: 'Changed strap to leather' },
+            { watchId: 1, date: '2023-03-20', description: 'Polished case' },
+            { watchId: 2, date: '2023-06-10', description: 'Replaced crystal' },
+        ];
+
         function showScreen(screen) {
             const content = document.getElementById('mainContent');
             content.innerHTML = `
                 <input class="search-bar" type="text" placeholder="Search..." oninput="search(event, '${screen}')" />
             `;
             switch(screen) {
+                case 'dashboard':
+                    showDashboard();
+                    break;
                 case 'watches':
                     content.innerHTML += `
                         <h2>My Watch Collection</h2>
                         <div class="watch-grid">
                             ${watches.map(watch => `
-                                <div class="watch-card" onclick="showWatchDetails(${watch.id})" style="background-image: url('${watch.image}');">
-                                    <h3>${watch.brand}</h3>
-                                    <p>${watch.model}</p>
+                                <div class="watch-card" onclick="showWatchDetails(${watch.id})">
+                                    <img src="${watch.image}" alt="${watch.brand} ${watch.model}">
+                                    <div class="watch-card-details">
+                                        <h3>${watch.brand}</h3>
+                                        <p>${watch.model}</p>
+                                        <p>Market Value: $${watch.marketValue}</p>
+                                        <p>Privacy: ${watch.privacy}</p>
+                                        <div>
+                                            <button class="icon-button" onclick="showShareWatch(${watch.id}); event.stopPropagation();"><img src="path/to/share-icon.svg" alt="Share"></button>
+                                        </div>
+                                    </div>
                                 </div>
                             `).join('')}
                         </div>
                         <button class="button" onclick="showAddWatch()">Add New Watch</button>
+                        <button class="button premium-feature" onclick="showWatchMatcher()">Watch Matcher</button>
                     `;
                     break;
                 case 'complications':
@@ -290,24 +445,6 @@
                         <button class="button" onclick="showAddComplication()">Add New Complication</button>
                     `;
                     break;
-                case 'repairs':
-                    content.innerHTML += `
-                        <h2>Repair Services</h2>
-                        <ul class="repair-list">
-                            ${repairServices.map(service => `
-                                <li class="repair-item" onclick="showRepairServiceDetails(${service.id})">
-                                    <h3>${service.name}</h3>
-                                    <p>Location: ${service.location}</p>
-                                    <p>Rating: ${service.rating}/5</p>
-                                    <div>
-                                        ${service.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
-                                    </div>
-                                </li>
-                            `).join('')}
-                        </ul>
-                        <button class="button" onclick="showAddRepairService()">Add New Repair Service</button>
-                    `;
-                    break;
                 case 'community':
                     content.innerHTML += `
                         <h2>Community Forum</h2>
@@ -316,387 +453,521 @@
                                 <h3>${post.title}</h3>
                                 <p>By: ${post.author}</p>
                                 <p>${post.content}</p>
-                                <button class="button" onclick="showPostComments(${post.id})">View Comments</button>
+                                <div>
+                                    <button class="icon-button"><img src="path/to/like-icon.svg" alt="Like"></button>
+                                    <button class="icon-button" onclick="showComments(${post.id})"><img src="path/to/comment-icon.svg" alt="Comment"></button>
+                                    <button class="icon-button"><img src="path/to/share-icon.svg" alt="Share"></button>
+                                </div>
                             </div>
                         `).join('')}
                         <button class="button" onclick="showNewPost()">New Post</button>
+                        <button class="button" onclick="showDirectMessages()">Direct Messages</button>
                     `;
                     break;
                 case 'more':
                     content.innerHTML += `
                         <h2>More Options</h2>
                         <button class="button" onclick="showScreen('profile')">User Profile</button>
-                        <button class="button">Settings</button>
-                        <button class="button">Help & Support</button>
-                        <button class="button">About WatchMate</button>
+                        <button class="button" onclick="showScreen('settings')">Settings</button>
+                        <button class="button" onclick="showScreen('help')">Help & Support</button>
+                        <button class="button" onclick="showScreen('about')">About WatchMate</button>
+                        <button class="button" onclick="showScreen('notifications')">Notifications</button>
+                        <button class="button premium-feature" onclick="showUpgradeOptions()">Upgrade to Premium</button>
                     `;
                     break;
                 case 'profile':
-                    content.innerHTML += `
-                        <h2>User Profile</h2>
-                        <div class="form-group">
-                            <label>Username</label>
-                            <input type="text" value="WatchEnthusiast" />
-                        </div>
-                        <div class="form-group">
-                            <label>Email</label>
-                            <input type="email" value="user@example.com" />
-                        </div>
-                        <div class="form-group">
-                            <label>Bio</label>
-                            <input type="text" value="Passionate about mechanical watches" />
-                        </div>
-                        <div class="form-group">
-                            <label>Location</label>
-                            <input type="text" value="Christchurch, NZ" />
-                        </div>
-                        <div class="form-group">
-                            <label>Profile Picture</label>
-                            <input type="file" accept="image/*" />
-                        </div>
-                        <div class="form-group">
-                            <label>Watch Preferences</label>
-                            <textarea placeholder="Enter your watch preferences"></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label>Favorite Brands</label>
-                            <input type="text" placeholder="Enter your favorite brands" />
-                        </div>
-                        <div class="form-group">
-                            <label>Social Media Links</label>
-                            <input type="text" placeholder="Enter your social media links" />
-                        </div>
-                        <button class="button">Update Profile</button>
-                        <div class="profile-stats">
-                            <h3>Profile Statistics</h3>
-                            <p>Total Watches: 4</p>
-                            <p>Average Accuracy: 1.75 sec/day</p>
-                            <p>Highest Market Value Watch: $70,000</p>
-                        </div>
-                    `;
+                    showUserProfile();
                     break;
                 case 'notifications':
-                    content.innerHTML += `
-                        <h2>Notifications</h2>
-                        <div class="notification-center">
-                            ${notifications.map(notification => `
-                                <div class="notification-item" style="background-color: ${notification.read ? '#253555' : '#0a192f'}">
-                                    <p>${notification.message}</p>
-                                </div>
-                            `).join('')}
-                        </div>
-                    `;
+                    showNotifications();
                     break;
-            }
-        }
-
-        function search(event, screen) {
-            const query = event.target.value.toLowerCase();
-            const content = document.getElementById('mainContent');
-            let filteredItems = [];
-
-            switch(screen) {
-                case 'watches':
-                    filteredItems = watches.filter(watch => watch.brand.toLowerCase().includes(query) || watch.model.toLowerCase().includes(query));
+                case 'settings':
+                    showSettings();
                     break;
-                case 'complications':
-                    filteredItems = complications.filter(complication => watches.find(watch => watch.id === complication.watchId).brand.toLowerCase().includes(query));
-                    break;
-                case 'repairs':
-                    filteredItems = repairServices.filter(service => service.name.toLowerCase().includes(query) || service.location.toLowerCase().includes(query));
-                    break;
-                case 'community':
-                    filteredItems = forumPosts.filter(post => post.title.toLowerCase().includes(query) || post.content.toLowerCase().includes(query));
-                    break;
-            }
-
-            showScreen(screen);
-            const filteredContent = document.getElementById('mainContent');
-            switch(screen) {
-                case 'watches':
-                    filteredContent.innerHTML += `
-                        <h2>My Watch Collection</h2>
-                        <div class="watch-grid">
-                            ${filteredItems.map(watch => `
-                                <div class="watch-card" onclick="showWatchDetails(${watch.id})" style="background-image: url('${watch.image}');">
-                                    <h3>${watch.brand}</h3>
-                                    <p>${watch.model}</p>
-                                </div>
-                            `).join('')}
-                        </div>
-                        <button class="button" onclick="showAddWatch()">Add New Watch</button>
-                    `;
-                    break;
-                case 'complications':
-                    filteredContent.innerHTML += `
-                        <h2>Complication Management</h2>
-                        <ul class="complication-list">
-                            ${filteredItems.map(complication => `
-                                <li class="complication-item" onclick="showComplicationDetails(${complication.id})">
-                                    <h3>${watches.find(w => w.id === complication.watchId).brand} - ${complication.type}</h3>
-                                    <p>Next Adjustment: ${complication.nextAdjustment}</p>
-                                </li>
-                            `).join('')}
-                        </ul>
-                        <button class="button" onclick="showAddComplication()">Add New Complication</button>
-                    `;
-                    break;
-                case 'repairs':
-                    filteredContent.innerHTML += `
-                        <h2>Repair Services</h2>
-                        <ul class="repair-list">
-                            ${filteredItems.map(service => `
-                                <li class="repair-item" onclick="showRepairServiceDetails(${service.id})">
-                                    <h3>${service.name}</h3>
-                                    <p>Location: ${service
-
-.location}</p>
-                                    <p>Rating: ${service.rating}/5</p>
-                                    <div>
-                                        ${service.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
-                                    </div>
-                                </li>
-                            `).join('')}
-                        </ul>
-                        <button class="button" onclick="showAddRepairService()">Add New Repair Service</button>
-                    `;
-                    break;
-                case 'community':
-                    filteredContent.innerHTML += `
-                        <h2>Community Forum</h2>
-                        ${filteredItems.map(post => `
-                            <div class="forum-post">
-                                <h3>${post.title}</h3>
-                                <p>By: ${post.author}</p>
-                                <p>${post.content}</p>
-                                <button class="button" onclick="showPostComments(${post.id})">View Comments</button>
-                            </div>
-                        `).join('')}
-                        <button class="button" onclick="showNewPost()">New Post</button>
-                    `;
-                    break;
+                default:
+                    content.innerHTML += `<p>Screen not found: ${screen}</p>`;
             }
         }
 
         function showWatchDetails(id) {
             const watch = watches.find(w => w.id === id);
+            const watchComplications = complications.filter(c => c.watchId === id);
             const content = document.getElementById('mainContent');
+
+            let complicationsHTML = watchComplications.map(complication => `
+                <div class="complication" style="top: ${complication.position.top}; left: ${complication.position.left};">
+                    ${complication.type.charAt(0)}
+                    <span class="bell-icon" onclick="toggleReminderModal(${complication.id}, event)">🔔</span>
+                </div>
+            `).join('');
+
             content.innerHTML = `
-                <h2>${watch.brand} ${watch.model}</h2>
-                <img src="${watch.image}" alt="${watch.brand} ${watch.model}" style="width: 100%; border-radius: 10px;">
-                <p>Accuracy: ${watch.accuracy} sec/day</p>
-                <p>Market Value: $${watch.marketValue}</p>
-                <h3>Complications</h3>
-                <div class="watch-face">
-                    ${complications.filter(c => c.watchId === watch.id).map(complication => `
-                        <div class="complication" style="top: ${complication.position.top}; left: ${complication.position.left};">
-                            ${complication.type.charAt(0)}
+                <div class="watch-details">
+                    <img src="${watch.image}" alt="${watch.brand} ${watch.model}" class="watch-image">
+                    <div class="watch-info">
+                        <h2>${watch.brand} ${watch.model}</h2>
+                        <p><strong>Accuracy:</strong> ${watch.accuracy} sec/day</p>
+                        <p><strong>Market Value:</strong> $${watch.marketValue}</p>
+                        <p><strong>Purchase Price:</strong> $${watch.purchasePrice}</p>
+                        <p><strong>Purchase Date:</strong> ${watch.purchaseDate}</p>
+                        <p><strong>Privacy:</strong> ${watch.privacy}</p>
+                        <button class="button" onclick="toggleWatchPrivacy(${watch.id})">Toggle Privacy</button>
+                    </div>
+                    <div class="watch-face">
+                        ${complicationsHTML}
+                    </div>
+                    <h3>Complications</h3>
+                    ${watchComplications.map(complication => getComplicationDetailHTML(complication)).join('')}
+                    <h3>Market Value Trend</h3>
+                    <div class="accuracy-chart" id="marketValueChart-${watch.id}"></div>
+                    <h3>Accuracy Trend</h3>
+                    <div class="accuracy-chart" id="accuracyChart-${watch.id}"></div>
+                    <button class="button" onclick="showCustomizationHistory(${watch.id})">Customization History</button>
+                    <button class="button" onclick="showWatchServiceHistory(${watch.id})">Service History</button>
+                    <a href="#" class="affiliate-link" onclick="handleAffiliateLinkClick(${watch.id})">Shop similar watches</a>
+                    <button class="button" onclick="showScreen('watches')">Back to Collection</button>
+                </div>
+            `;
+
+            renderMarketValueChart(watch.id);
+            renderAccuracyChart(watch.id);
+        }
+
+        function renderMarketValueChart(watchId) {
+            const chartData = marketData.filter(data => data.watchId === watchId);
+            const chartElement = document.getElementById(`marketValueChart-${watchId}`);
+            
+            let tableHTML = `
+                <table class="trend-table">
+                    <tr>
+                        <th>Date</th>
+                        <th>Market Value</th>
+                    </tr>
+                    ${chartData.map(data => `
+                        <tr>
+                            <td>${data.date}</td>
+                            <td>$${data.value}</td>
+                        </tr>
+                    `).join('')}
+                </table>
+            `;
+            
+            chartElement.innerHTML = tableHTML;
+        }
+
+        function renderAccuracyChart(watchId) {
+            const chartData = accuracyData.filter(data => data.watchId === watchId);
+            const chartElement = document.getElementById(`accuracyChart-${watchId}`);
+            
+            let tableHTML = `
+                <table class="trend-table">
+                    <tr>
+                        <th>Date</th>
+                        <th>Accuracy (sec/day)</th>
+                    </tr>
+                    ${chartData.map(data => `
+                        <tr>
+                            <td>${data.date}</td>
+                            <td>${data.accuracy}</td>
+                        </tr>
+                    `).join('')}
+                </table>
+            `;
+            
+            chartElement.innerHTML = tableHTML;
+        }
+
+        function getComplicationDetailHTML(complication) {
+            switch(complication.type) {
+                case 'Day/Date':
+                    return `
+                        <div class="complication-detail">
+                            <h4>${complication.type}</h4>
+                            <p>Last Adjusted: ${complication.lastAdjusted}</p>
+                            <p>Next Adjustment: ${complication.nextAdjustment}</p>
+                            <button class="button" onclick="adjustDayDate(${complication.id})">Adjust Now</button>
+                        </div>
+                    `;
+                case 'Chronograph':
+                    return `
+                        <div class="complication-detail">
+                            <h4>${complication.type}</h4>
+                            <p>Last Service: ${complication.lastService}</p>
+                            <p>Service Interval: ${complication.serviceInterval} days</p>
+                            <button class="button" onclick="serviceChronograph(${complication.id})">Mark as Serviced</button>
+                        </div>
+                    `;
+                case 'Power Reserve':
+                    return `
+                        <div class="complication-detail">
+                            <h4>${complication.type}</h4>
+                            <p>Last Full Wind: ${complication.lastFullWind}</p>
+                            <p>Power Reserve Duration: ${complication.powerReserveDuration} hours</p>
+                            <button class="button" onclick="windWatch(${complication.id})">Mark as Fully Wound</button>
+                        </div>
+                    `;
+                default:
+                    return `<p>Details not available for this complication type.</p>`;
+            }
+        }
+
+        function toggleReminderModal(complicationId, event) {
+            event.stopPropagation();
+            const complication = complications.find(c => c.id === complicationId);
+            const modal = document.createElement('div');
+            modal.className = 'modal';
+            modal.innerHTML = `
+                <h3>Set Reminder for ${complication.type}</h3>
+                <label>
+                    <input type="checkbox" ${complication.reminderEnabled ? 'checked' : ''} onchange="updateReminderSettings(${complicationId}, this.checked)">
+                    Enable Reminder
+                </label>
+                <select onchange="updateReminderType(${complicationId}, this.value)" ${!complication.reminderEnabled ? 'disabled' : ''}>
+                    <option value="push" ${complication.reminderType === 'push' ? 'selected' : ''}>Push Notification</option>
+                    <option value="email" ${complication.reminderType === 'email' ? 'selected' : ''}>Email</option>
+                </select>
+                <button onclick="closeModal()">Close</button>
+            `;
+            document.body.appendChild(modal);
+
+            const backdrop = document.createElement('div');
+            backdrop.className = 'modal-backdrop';
+            document.body.appendChild(backdrop);
+        }
+
+        function closeModal() {
+            const modal = document.querySelector('.modal');
+            const backdrop = document.querySelector('.modal-backdrop');
+            if (modal) modal.remove();
+            if (backdrop) backdrop.remove();
+        }
+
+        function updateReminderSettings(complicationId, enabled) {
+            const complication = complications.find(c => c.id === complicationId);
+            complication.reminderEnabled = enabled;
+            document.querySelector('select').disabled = !enabled;
+            // In a real app, you would send this update to the server
+        }
+
+        function updateReminderType(complicationId, type) {
+            const complication = complications.find(c => c.id === complicationId);
+            complication.reminderType = type;
+            // In a real app, you would send this update to the server
+        }
+
+        function showDashboard() {
+            const content = document.getElementById('mainContent');
+            const totalValue = watches.reduce((sum, watch) => sum + watch.marketValue, 0);
+            const averageAccuracy = watches.reduce((sum, watch) => sum + watch.accuracy, 0) / watches.length;
+
+            content.innerHTML += `
+                <h2>Dashboard</h2>
+                <div class="dashboard-summary">
+                    <p>Total Watches: ${watches.length}</p>
+                    <p>Total Collection Value: $${totalValue}</p>
+                    <p>Average Accuracy: ${averageAccuracy.toFixed(2)} sec/day</p>
+                </div>
+                <h3>Quick Actions</h3>
+                <button class="button" onclick="showAddWatch()">Add New Watch</button>
+                <button class="button" onclick="showScreen('complications')">Manage Complications</button>
+                <button class="button" onclick="showScreen('community')">Join Community</button>
+                <h3>Recent Activity</h3>
+                <ul>
+                    ${watches.slice(0, 3).map(watch => `<li>Added ${watch.brand} ${watch.model}</li>`).join('')}
+                </ul>
+            `;
+        }
+
+        function showUserProfile() {
+            const content = document.getElementById('mainContent');
+            content.innerHTML += `
+                <h2>User Profile</h2>
+                <div class="form-group">
+                    <label>Username</label>
+                    <input type="text" value="WatchEnthusiast" />
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" value="user@example.com" />
+                </div>
+                <div class="form-group">
+                    <label>Bio</label>
+                    <textarea>Passionate about mechanical watches</textarea>
+                </div>
+                <div class="form-group">
+                    <label>Location</label>
+                    <input type="text" value="Christchurch, NZ" />
+                </div>
+                <div class="form-group">
+                    <label>Profile Picture</label>
+                    <input type="file" accept="image/*" />
+                </div>
+                <div class="form-group">
+                    <label>Watch Preferences</label>
+                    <textarea placeholder="Enter your watch preferences"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Favorite Brands</label>
+                    <input type="text" placeholder="Enter your favorite brands" />
+                </div>
+                <div class="form-group">
+                    <label>Social Media Links</label>
+                    <input type="text" placeholder="Enter your social media links" />
+                </div>
+                <button class="button">Update Profile</button>
+                <div class="profile-stats">
+                    <h3>Profile Statistics</h3>
+                    <p>Total Watches: ${watches.length}</p>
+                    <p>Average Accuracy: ${calculateAverageAccuracy()} sec/day</p>
+                    <p>Highest Market Value Watch: $${findHighestMarketValue()}</p>
+                </div>
+            `;
+        }
+
+        function showNotifications() {
+            const content = document.getElementById('mainContent');
+            content.innerHTML += `
+                <h2>Notifications</h2>
+                <div class="notification-center">
+                    ${notifications.map(notification => `
+                        <div class="notification-item" style="background-color: ${notification.read ? '#f9f9f9' : '#fff'}">
+                            <p>${notification.message}</p>
+                            <button class="button" onclick="markNotificationAsRead(${notification.id})">Mark as Read</button>
                         </div>
                     `).join('')}
                 </div>
-                <h3>Accuracy Chart</h3>
-                <div class="chart">
-                    <div class="bar" style="height: 80%;"></div>
-                    <div class="bar" style="height: 60%;"></div>
-                    <div class="bar" style="height: 90%;"></div>
-                    <div class="bar" style="height: 70%;"></div>
-                    <div class="bar" style="height: 85%;"></div>
-                </div>
-                <button class="button" onclick="showScreen('watches')">Back to Collection</button>
-                <button class="button" onclick="showShareWatch(${watch.id})">Share Watch Details</button>
             `;
         }
 
-        function showShareWatch(id) {
-            const watch = watches.find(w => w.id === id);
+        function showSettings() {
             const content = document.getElementById('mainContent');
-            content.innerHTML = `
-                <h2>Share ${watch.brand} ${watch.model}</h2>
+            content.innerHTML += `
+                <h2>Settings</h2>
+                <h3>Notifications</h3>
                 <div class="form-group">
-                    <label>Select Details to Share</label>
-                    <div>
-                        <input type="checkbox" id="shareAccuracy" checked> Accuracy<br>
-                        <input type="checkbox" id="shareMarketValue" checked> Market Value<br>
-                        <input type="checkbox" id="shareComplications" checked> Complications<br>
-                    </div>
+                    <label>
+                        <input type="checkbox" id="pushNotifications" checked> 
+                        Enable Push Notifications
+                    </label>
                 </div>
                 <div class="form-group">
-                    <label>Share via</label>
-                    <select id="shareVia">
-                        <option value="email">Email</option>
-                        <option value="socialMedia">Social Media</option>
-                        <option value="link">Generate Link</option>
+                    <label>
+                        <input type="checkbox" id="emailNotifications" checked> 
+                        Enable Email Notifications
+                    </label>
+                </div>
+                <h3>Privacy</h3>
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" id="publicProfile" checked> 
+                        Public Profile
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label>Default Watch Privacy</label>
+                    <select id="defaultWatchPrivacy">
+                        <option>Public</option>
+                        <option>Private</option>
                     </select>
                 </div>
-                <button class="button" onclick="shareWatchDetails(${watch.id})">Share</button>
-                <button class="button" onclick="showWatchDetails(${watch.id})">Cancel</button>
+                <h3>Appearance</h3>
+                <div class="form-group">
+                    <label>Theme</label>
+                    <select id="appTheme">
+                        <option>Light</option>
+                        <option>Dark</option>
+                        <option>System Default</option>
+                    </select>
+                </div>
+                <button class="button" onclick="saveSettings()">Save Settings</button>
             `;
         }
 
-        function shareWatchDetails(id) {
-            const shareVia = document.getElementById('shareVia').value;
-            const detailsToShare = {
-                accuracy: document.getElementById('shareAccuracy').checked,
-                marketValue: document.getElementById('shareMarketValue').checked,
-                complications: document.getElementById('shareComplications').checked
-            };
-            // Process sharing the details based on selected options
-            console.log(`Sharing ${id} via ${shareVia}`, detailsToShare);
-            showWatchDetails(id);
+        function showWatchServiceHistory(watchId) {
+            const watch = watches.find(w => w.id === watchId);
+            const content = document.getElementById('mainContent');
+
+            // Dummy service history data
+            const serviceHistory = [
+                { date: '2023-01-15', type: 'Full Service', provider: 'Swiss Watch Repair', cost: 500 },
+                { date: '2022-06-30', type: 'Battery Replacement', provider: 'Local Jeweler', cost: 50 },
+                { date: '2021-11-20', type: 'Water Resistance Test', provider: 'Precision Timepieces', cost: 100 },
+            ];
+
+            content.innerHTML = `
+                <h2>${watch.brand} ${watch.model} - Service History</h2>
+                <table>
+                    <tr>
+                        <th>Date</th>
+                        <th>Service Type</th>
+                        <th>Provider</th>
+                        <th>Cost</th>
+                    </tr>
+                    ${serviceHistory.map(service => `
+                        <tr>
+                            <td>${service.date}</td>
+                            <td>${service.type}</td>
+                            <td>${service.provider}</td>
+                            <td>$${service.cost}</td>
+                        </tr>
+                    `).join('')}
+                </table>
+                <button class="button" onclick="showAddServiceRecord(${watchId})">Add Service Record</button>
+                <button class="button" onclick="showWatchDetails(${watchId})">Back to Watch Details</button>
+            `;
+        }
+
+        function showCustomizationHistory(watchId) {
+            const history = customizationHistory.filter(h => h.watchId === watchId);
+            const content = document.getElementById('mainContent');
+            content.innerHTML = `
+                <h2>Customization History</h2>
+                ${history.map(h => `
+                    <div class="customization-item">
+                        <p>Date: ${h.date}</p>
+                        <p>Description: ${h.description}</p>
+                    </div>
+                `).join('')}
+                <button class="button" onclick="showAddCustomization(${watchId})">Add Customization</button>
+                <button class="button" onclick="showWatchDetails(${watchId})">Back to Watch Details</button>
+            `;
+        }
+
+        function showWatchMatcher() {
+            const content = document.getElementById('mainContent');
+            content.innerHTML = `
+                <h2>Watch Matcher</h2>
+                <p>Answer these questions to get personalized watch recommendations.</p>
+                <div class="form-group">
+                    <label>What's your budget?</label>
+                    <input type="range" min="100" max="10000" value="5000" id="budget">
+                    <output for="budget" id="budgetOutput">$5000</output>
+                </div>
+                <div class="form-group">
+                    <label>Preferred Style</label>
+                    <select id="style">
+                        <option>Dress</option>
+                        <option>Dive</option>
+                        <option>Pilot</option>
+                        <option>Chronograph</option>
+                        <option>Minimalist</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Preferred Movement</label>
+                    <select id="movement">
+                        <option>Automatic</option>
+                        <option>Manual</option>
+                        <option>Quartz</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Preferred Case Material</label>
+                    <select id="material">
+                        <option>Stainless Steel</option>
+                        <option>Gold</option>
+                        <option>Titanium</option>
+                        <option>Ceramic</option>
+                    </select>
+                </div>
+                <button class="button" onclick="getWatchRecommendations()">Get Recommendations</button>
+                <button class="button" onclick="showScreen('watches')">Back</button>
+            `;
+
+            // Add event listener for budget range input
+            document.getElementById('budget').addEventListener('input', function() {
+                document.getElementById('budgetOutput').textContent = '$' + this.value;
+            });
+        }
+
+        function getWatchRecommendations() {
+            // This function would typically make an API call to get recommendations
+            // For this mockup, we'll just show a dummy recommendation
+            const content = document.getElementById('mainContent');
+            content.innerHTML += `
+                <h3>Recommendations</h3>
+                <div class="watch-card">
+                    <img src="https://via.placeholder.com/150?text=Recommended+Watch" alt="Recommended Watch">
+                    <div class="watch-card-details">
+                        <h3>Recommended Watch</h3>
+                        <p>Based on your preferences</p>
+                        <p>Price: $${document.getElementById('budget').value}</p>
+                    </div>
+                </div>
+            `;
         }
 
         function showAddWatch() {
             const content = document.getElementById('mainContent');
             content.innerHTML = `
                 <h2>Add New Watch</h2>
-                <form id="addWatchForm" onsubmit="submitWatchForm(event)">
+                <form id="addWatchForm">
                     <div class="form-group">
                         <label>Brand</label>
-                        <input type="text" name="brand" placeholder="Enter brand" required />
+                        <input type="text" id="watchBrand" required />
                     </div>
                     <div class="form-group">
                         <label>Model</label>
-                        <input type="text" name="model" placeholder="Enter model" required />
+                        <input type="text" id="watchModel" required />
                     </div>
                     <div class="form-group">
-                        <label>Serial Number</label>
-                        <input type="text" name="serialNumber" placeholder="Enter serial number" required />
+                        <label>Purchase Price</label>
+                        <input type="number" id="watchPrice" required />
                     </div>
                     <div class="form-group">
-                        <label>Watch Image</label>
-                        <input type="file" name="watchImage" accept="image/*" required />
+                        <label>Purchase Date</label>
+                        <input type="date" id="watchPurchaseDate" required />
                     </div>
-                    <button class="button" type="submit">Add Watch</button>
-                    <button class="button" type="button" onclick="showScreen('watches')">Cancel</button>
+                    <div class="form-group">
+                        <label>Privacy</label>
+                        <select id="watchPrivacy">
+                            <option value="public">Public</option>
+                            <option value="private">Private</option>
+                        </select>
+                    </div>
+                    <button class="button" type="button" onclick="submitNewWatch()">Add Watch</button>
+                    <button class="button" onclick="showScreen('watches')">Cancel</button>
                 </form>
             `;
         }
 
-        function submitWatchForm(event) {
-            event.preventDefault();
-            const form = document.getElementById('addWatchForm');
-            const formData = new FormData(form);
-            // Process the form data
-            console.log('Form submitted:', formData);
+        function submitNewWatch() {
+            const brand = document.getElementById('watchBrand').value;
+            const model = document.getElementById('watchModel').value;
+            const price = document.getElementById('watchPrice').value;
+            const purchaseDate = document.getElementById('watchPurchaseDate').value;
+            const privacy = document.getElementById('watchPrivacy').value;
+
+            const newWatch = {
+                id: watches.length + 1,
+                brand,
+                model,
+                accuracy: 0, // Initial accuracy
+                marketValue: parseInt(price), // Initial market value same as purchase price
+                image: `https://via.placeholder.com/150?text=${brand}+${model}`,
+                purchasePrice: parseInt(price),
+                purchaseDate,
+                privacy
+            };
+
+            watches.push(newWatch);
             showScreen('watches');
         }
 
-        function showComplicationDetails(id) {
-            const complication = complications.find(c => c.id === id);
-            const watch = watches.find(w => w.id === complication.watchId);
-            const content = document.getElementById('mainContent');
-
-            let complicationHTML = '';
-            let reminderHTML = `
-                <div class="form-group">
-                    <label>Enable Reminder</label>
-                    <input type="checkbox" id="reminderEnabled" ${complication.reminderEnabled ? 'checked' : ''} onchange="updateReminderSettings(${complication.id})">
-                </div>
-                <div class="form-group" id="reminderTypeGroup" style="display: ${complication.reminderEnabled ? 'block' : 'none'}">
-                    <label>Reminder Type</label>
-                    <select id="reminderType" onchange="updateReminderSettings(${complication.id})">
-                        <option value="push" ${complication.reminderType === 'push' ? 'selected' : ''}>Push Notification</option>
-                        <option value="email" ${complication.reminderType === 'email' ? 'selected' : ''}>Email</option>
-                    </select>
-                </div>
-            `;
-
-            switch(complication.type) {
-                case 'Day/Date':
-                    complicationHTML = `
-                        <p>Last Adjusted: ${complication.lastAdjusted}</p>
-                        <p>Next Adjustment: ${complication.nextAdjustment}</p>
-                        <div class="form-group">
-                            <label>Mark as Adjusted</label>
-                            <input type="date" id="adjustmentDate" />
-                        </div>
-                        <p>Tip: Adjust at the end of months with less than 31 days.</p>
-                        <button class="button" onclick="updateDayDateAdjustment(${complication.id})">Mark Adjusted</button>
-                        ${reminderHTML}
-                    `;
-                    break;
-                case 'Chronograph':
-                    complicationHTML = `
-                        <p>Last Service: ${complication.lastService}</p>
-                        <p>Service Interval: ${complication.serviceInterval} days</p>
-                        <div class="form-group">
-                            <label>Mark as Serviced</label>
-                            <input type="date" id="serviceDate" />
-                        </div>
-                        <p>Tip: Regular servicing ensures accurate timekeeping.</p>
-                        <button class="button" onclick="updateChronographService(${complication.id})">Mark Serviced</button>
-                        ${reminderHTML}
-                    `;
-                    break;
-                case 'Power Reserve':
-                    complicationHTML = `
-                        <p>Last Full Wind: ${complication.lastFullWind}</p>
-                        <p>Power Reserve Duration: ${complication.powerReserveDuration} hours</p>
-                        <div class="form-group">
-                            <label>Mark as Fully Wound</label>
-                            <input type="datetime-local" id="windDateTime" />
-                        </div>
-                        <p>Tip: Fully wind your watch regularly to maintain accuracy.</p>
-                        <button class="button" onclick="updatePowerReserve(${complication.id})">Mark Fully Wound</button>
-                        ${reminderHTML}
-                    `;
-                    break;
-                default:
-                    complicationHTML = `<p>Details not available for this complication type.</p>`;
-            }
-
-            content.innerHTML = `
-                <h2>${watch.brand} - ${complication.type}</h2>
-                <div class="watch-face">
-                    <div class="complication" style="top: ${complication.position.top}; left: ${complication.position.left};">
-                        ${complication.type.charAt(0)}
-                    </div>
-                </div>
-                ${complicationHTML}
-                <button class="button"
-
- onclick="showScreen('complications')">Back to Complications</button>
-            `;
+        function calculateAverageAccuracy() {
+            const sum = watches.reduce((acc, watch) => acc + watch.accuracy, 0);
+            return (sum / watches.length).toFixed(2);
         }
 
-        function updateReminderSettings(id) {
-            const complication = complications.find(c => c.id === id);
-            complication.reminderEnabled = document.getElementById('reminderEnabled').checked;
-            complication.reminderType = document.getElementById('reminderType').value;
-            
-            // Toggle visibility of reminder type selection
-            document.getElementById('reminderTypeGroup').style.display = complication.reminderEnabled ? 'block' : 'none';
-            
-            // Here you would typically send an update to the server
-            console.log(`Updated reminder settings for complication ${id}:`, complication);
+        function findHighestMarketValue() {
+            return Math.max(...watches.map(watch => watch.marketValue));
         }
 
-        function updatePowerReserve(id) {
-            const dateTime = document.getElementById('windDateTime').value;
-            if (dateTime) {
-                const complication = complications.find(c => c.id === id);
-                complication.lastFullWind = dateTime;
-                showComplicationDetails(id);
-            }
-        }
-
-        function updateChronographService(id) {
-            const date = document.getElementById('serviceDate').value;
-            if (date) {
-                const complication = complications.find(c => c.id === id);
-                complication.lastService = date;
-                showComplicationDetails(id);
-            }
-        }
-
-        function updateDayDateAdjustment(id) {
-            const date = document.getElementById('adjustmentDate').value;
-            if (date) {
-                const complication = complications.find(c => c.id === id);
-                complication.lastAdjusted = date;
-                complication.nextAdjustment = calculateNextAdjustment(date);
-                showComplicationDetails(id);
-            }
+        function adjustDayDate(complicationId) {
+            const complication = complications.find(c => c.id === complicationId);
+            complication.lastAdjusted = new Date().toISOString().split('T')[0];
+            complication.nextAdjustment = calculateNextAdjustment(complication.lastAdjusted);
+            showWatchDetails(complication.watchId);
         }
 
         function calculateNextAdjustment(date) {
@@ -708,168 +979,43 @@
             return nextDate.toISOString().split('T')[0];
         }
 
-        function showAddComplication() {
-            const content = document.getElementById('mainContent');
-            content.innerHTML = `
-                <h2>Add New Complication</h2>
-                <div class="form-group">
-                    <label>Watch</label>
-                    <select>
-                        ${watches.map(watch => `<option value="${watch.id}">${watch.brand} ${watch.model}</option>`).join('')}
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Complication Type</label>
-                    <select>
-                        <option>Date</option>
-                        <option>Chronograph</option>
-                        <option>Power Reserve</option>
-                        <option>Moon Phase</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Position on Watch Face</label>
-                    <select>
-                        <option value="top: 25%; left: 50%;">12 o'clock</option>
-                        <option value="top: 50%; left: 85%;">3 o'clock</option>
-                        <option value="top: 75%; left: 50%;">6 o'clock</option>
-                        <option value="top: 50%; left: 15%;">9 o'clock</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Next Adjustment Date</label>
-                    <input type="date" />
-                </div>
-                <button class="button">Add Complication</button>
-                <button class="button" onclick="showScreen('complications')">Cancel</button>
-            `;
+        function serviceChronograph(complicationId) {
+            const complication = complications.find(c => c.id === complicationId);
+            complication.lastService = new Date().toISOString().split('T')[0];
+            showWatchDetails(complication.watchId);
         }
 
-        function showRepairServiceDetails(id) {
-            const service = repairServices.find(s => s.id === id);
-            const content = document.getElementById('mainContent');
-            content.innerHTML = `
-                <h2>${service.name}</h2>
-                <p>Location: ${service.location}</p>
-                <p>Rating: ${service.rating}/5</p>
-                <div>
-                    ${service.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
-                </div>
-                <h3>Reviews</h3>
-                <p>"Great service, highly recommended!" - John D.</p>
-                <p>"Fixed my vintage watch perfectly." - Sarah M.</p>
-                <button class="button" onclick="showScreen('repairs')">Back to Repair Services</button>
-            `;
+        function windWatch(complicationId) {
+            const complication = complications.find(c => c.id === complicationId);
+            complication.lastFullWind = new Date().toISOString();
+            showWatchDetails(complication.watchId);
         }
 
-        function showAddRepairService() {
-            const content = document.getElementById('mainContent');
-            content.innerHTML = `
-                <h2>Add New Repair Service</h2>
-                <form id="addRepairServiceForm" onsubmit="submitRepairServiceForm(event)">
-                    <div class="form-group">
-                        <label>Name</label>
-                        <input type="text" name="name" placeholder="Enter service name" required />
-                    </div>
-                    <div class="form-group">
-                        <label>Location</label>
-                        <input type="text" name="location" placeholder="Enter location" required />
-                    </div>
-                    <div class="form-group">
-                        <label>Phone</label>
-                        <input type="tel" name="phone" placeholder="Enter phone number" required />
-                    </div>
-                    <div class="form-group">
-                        <label>Specialties (comma-separated)</label>
-                        <input type="text" name="specialties" placeholder="e.g., Rolex, Vintage, Restoration" required />
-                    </div>
-                    <button class="button" type="submit">Add Repair Service</button>
-                    <button class="button" type="button" onclick="showScreen('repairs')">Cancel</button>
-                </form>
-            `;
+        function toggleWatchPrivacy(watchId) {
+            const watch = watches.find(w => w.id === watchId);
+            watch.privacy = watch.privacy === 'public' ? 'private' : 'public';
+            showWatchDetails(watchId);
         }
 
-        function submitRepairServiceForm(event) {
-            event.preventDefault();
-            const form = document.getElementById('addRepairServiceForm');
-            const formData = new FormData(form);
-            // Process the form data
-            console.log('Form submitted:', formData);
-            showScreen('repairs');
+        function handleAffiliateLinkClick(watchId) {
+            console.log(`Affiliate link clicked for watch ${watchId}`);
+            // In a real app, this would redirect to an affiliate link
         }
 
-        function showNewPost() {
-            const content = document.getElementById('mainContent');
-            content.innerHTML = `
-                <h2>New Forum Post</h2>
-                <form id="newPostForm" onsubmit="submitPostForm(event)">
-                    <div class="form-group">
-                        <label>Title</label>
-                        <input type="text" name="title" placeholder="Enter post title" required />
-                    </div>
-                    <div class="form-group">
-                        <label>Content</label>
-                        <textarea name="content" placeholder="Enter post content" rows="5" required></textarea>
-                    </div>
-                    <button class="button" type="submit">Submit Post</button>
-                    <button class="button" type="button" onclick="showScreen('community')">Cancel</button>
-                </form>
-            `;
+        function markNotificationAsRead(notificationId) {
+            const notification = notifications.find(n => n.id === notificationId);
+            notification.read = true;
+            showNotifications();
         }
 
-        function submitPostForm(event) {
-            event.preventDefault();
-            const form = document.getElementById('newPostForm');
-            const formData = new FormData(form);
-            // Process the form data
-            console.log('Form submitted:', formData);
-            showScreen('community');
+        function saveSettings() {
+            // In a real app, this would save the settings to the server
+            alert('Settings saved successfully!');
+            showScreen('more');
         }
 
-        function showPostComments(postId) {
-            const post = forumPosts.find(p => p.id === postId);
-            const comments = [
-                { id: 1, author: 'WatchFan2', content: 'I love the new release!', postId: 1 },
-                { id: 2, author: 'WatchLover', content: 'Thanks for the tips!', postId: 2 }
-            ].filter(comment => comment.postId === postId);
-
-            const content = document.getElementById('mainContent');
-            content.innerHTML = `
-                <h2>Comments on "${post.title}"</h2>
-                <div class="forum-post">
-                    <h3>${post.title}</h3>
-                    <p>By: ${post.author}</p>
-                    <p>${post.content}</p>
-                </div>
-                <div class="comments">
-                    ${comments.map(comment => `
-                        <div class="comment">
-                            <p><strong>${comment.author}</strong>: ${comment.content}</p>
-                        </div>
-                    `).join('')}
-                </div>
-                <form id="addCommentForm" onsubmit="submitCommentForm(event, ${postId})">
-                    <div class="form-group">
-                        <label>Add a comment</label>
-                        <textarea name="commentContent" placeholder="Enter your comment" rows="3" required></textarea>
-                    </div>
-                    <button class="button" type="submit">Submit Comment</button>
-                </form>
-                <button class="button" onclick="showScreen('community')">Back to Community</button>
-            `;
-        }
-
-        function submitCommentForm(event, postId) {
-            event.preventDefault();
-            const form = document.getElementById('addCommentForm');
-            const formData = new FormData(form);
-            // Process the form data
-            console.log('Comment submitted:', formData);
-            showPostComments(postId);
-        }
-
-        // Initialize with the watches screen
-        showScreen('watches');
+        // Initialize the app by showing the dashboard
+        showScreen('dashboard');
     </script>
 </body>
 </html>
